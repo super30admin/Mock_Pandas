@@ -1,0 +1,15 @@
+import pandas as pd
+
+def market_analysis(users: pd.DataFrame, orders: pd.DataFrame, items: pd.DataFrame) -> pd.DataFrame:
+
+    # find 2019 records
+    df_2019 = orders[orders['order_date'].dt.year==2019]
+
+    count_2019 = df_2019.groupby('buyer_id',as_index=False)['order_id'].count()
+    count_2019.columns=['buyer_id','orders_in_2019']
+
+    users = users[['user_id','join_date']]
+    users.columns=['buyer_id','join_date']
+
+    merge = users.merge(count_2019, how='left',on='buyer_id').fillna(0)
+    return merge
