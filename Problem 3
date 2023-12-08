@@ -1,0 +1,9 @@
+# Sales Analysis III
+
+import pandas as pd
+
+def sales_analysis(product: pd.DataFrame, sales: pd.DataFrame) -> pd.DataFrame:
+    product = product.merge(sales, how='left', on ='product_id')
+    product = product.drop_duplicates('product_id', keep = 'last')
+    print(product)
+    return product[(product['sale_date']>= '2019-01-01') & (product['sale_date']<= '2019-03-31')][['product_id','product_name']]
